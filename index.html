@@ -1,0 +1,103 @@
+<img src="NICD_Secondary Logo_Landscape_White.png" width="50%">
+<div>
+    <div id="minutes" class="countdown">10:</div>
+    <div id="seconds" class="countdown">00</div>
+</div>
+<div>
+    <button onclick="start()" id="start">Start</button>
+    <button onclick="resetButton()" id="reset">Reset</button>
+</div>
+
+
+<style>
+    @font-face {
+        font-family: Derailed;
+        src: url('derailed-bold-webfont.ttf');
+    }
+
+    .countdown {
+        font-family: Derailed;
+        font-size: 30vw;
+        color: white;
+        /* overflow: hidden; */
+        width: 49vw;
+        display: inline-block;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button {
+        background-color: black;
+        font-family: Derailed;
+        border-color: white;
+        color: white;
+        font-size: 12pt;
+        border-radius: 10px;
+        padding-left:10;
+        padding-right:10;
+        padding-top:5;
+        padding-bottom:5; 
+        margin-left: 10;
+    }
+
+    button:disabled {
+        background-color: grey;
+        color: lightgrey;
+    }
+
+    #minutes {
+        text-align: right
+    }
+
+    #seconds {
+        width: 40vw
+    }
+
+    */
+</style>
+<script>
+
+    var timeout;
+    minutesElement = document.getElementById("minutes");
+    secondsElement = document.getElementById("seconds");
+    startElement = document.getElementById("start")
+
+    function resetButton() {
+        clearTimeout(timeout)
+        startElement.disabled = false;
+        minutesElement.innerHTML = "10:"
+        secondsElement.innerHTML = "00"
+
+    }
+
+    function start(minutes = 10, seconds = 0) {
+        var endTime, hours, mins, msLeft, time;
+
+        button = document.getElementById("start")
+        button.disabled = true;
+
+        function updateTimer() {
+            msLeft = endTime - (+new Date);
+            if (msLeft < 1000) {
+                secondsElement.innerHTML = "00";
+            } else {
+                time = new Date(msLeft);
+                seconds = time.getUTCSeconds()
+                minutesElement.innerHTML = time.getUTCMinutes() + ':'
+                secondsElement.innerHTML = seconds <= 9 ? "0" + seconds : seconds;
+                timeout = setTimeout(updateTimer, time.getUTCMilliseconds() + 500);
+            }
+        }
+        endTime = (+new Date) + 1000 * (60 * minutes + seconds) + 500;
+        updateTimer();
+    }
+
+</script>
